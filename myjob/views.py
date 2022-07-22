@@ -203,12 +203,13 @@ def updateUser(request):
 
 @login_required(login_url='login')
 def companiesPage(request):
+    page = 'profile'
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     user = User.objects.get(id=request.user.id)
     jobs = Job.objects.filter(client=user)
     companies_all = user.company_set.all()
     companies = companies_all.filter(name__icontains=q)
-    return render(request, 'myjob/companies.html', {'companies': companies, 'jobs': jobs})
+    return render(request, 'myjob/companies.html', {'page': page, 'companies': companies, 'jobs': jobs})
 
 @login_required(login_url='login')
 def savedPage(request):
