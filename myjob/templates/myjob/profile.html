@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <main class="profile-page layout layout--3">
+    <div class="container">
+      <!-- Topics Start -->
+      {% include 'myjob/companies_component.html' %}
+      <!-- Topics End -->
+
+      <!-- Room List Start -->
+      <div class="roomList">
+        <div class="profile">
+          <div class="profile__avatar">
+            <div class="avatar avatar--large active">
+              <img src="{{user.avatar.url}}" />
+            </div>
+          </div>
+          <div class="profile__info">
+            <h3>{{user.name}}</h3>
+            <p>@{{user.username}}</p>
+            {% if request.user == user  %}
+            <a href="{% url 'update-user' %}" class="btn btn--main btn--pill">Edit Profile</a>
+            {% endif %}
+          </div>
+          <div class="profile__about">
+            <h3>About</h3>
+            <p>
+              {{user.bio}}
+            </p>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="roomList__header">
+          <div>
+            <h2>Industry You're Interested In</a></h2>
+          </div>
+        </div>
+        <div class="roomListRoom__actions">
+          <ul class=" industry_list">
+            <li id="one">{{user.interest_one}}</li>
+            <li id="one">{{user.interest_two}}</li>
+            <li id="one">{{user.interest_three}}</li>
+          </ul>
+        </div>
+
+        <br>
+        <br>
+
+        <div class="roomList__header">
+          <div>
+            <h2>Companies {{user.name}} Loves</a>
+            </h2>
+          </div>
+        </div>
+        {% include 'myjob/company_feed.html' %}
+      </div>
+      <!-- Room List End -->
+
+      <!-- Activities Start -->
+      {% include 'myjob/saved_component.html' %}  
+      <!-- Activities End -->
+    </div>
+  </main>
+{% endblock content %} 
