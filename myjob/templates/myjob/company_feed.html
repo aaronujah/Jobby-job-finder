@@ -4,7 +4,11 @@
     <div class="roomListRoom__header">
         <a href="{% url 'home' %}?q={{company.name}}" class="roomListRoom__author">
         <div class="avatar avatar--small">
-            <img src="{{job.company.logo.url}}" />
+            {% if page == 'profile' %}
+                <img src="{{company.logo.url}}" />
+            {% else %}
+                <img src="{{job.company.logo.url}}" />
+            {% endif %}
         </div>
         <span class="roomListRoom__content">{{company.name}}</span>
         </a>

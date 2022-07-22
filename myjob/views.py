@@ -106,11 +106,12 @@ def job(request, pk):
 
 @login_required(login_url='login')
 def userProfile(request):
+    page = 'profile'
     user = User.objects.get(id=request.user.id)
     jobs = Job.objects.filter(client=user)
     companies = Company.objects.filter(user=user)
 
-    context = {'user':user, 'jobs': jobs, 'companies': companies}
+    context = {'user':user, 'jobs': jobs, 'companies': companies, 'page': page}
     return render(request, 'myjob/profile.html', context)
 
 @login_required(login_url='login')
