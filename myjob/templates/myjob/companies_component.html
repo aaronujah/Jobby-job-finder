@@ -20,7 +20,7 @@
         </li>
         {% for company in companies %}
             <li>
-                <a href="{% url 'home' %}?q={{company.name}}" class="active">{{company.name}} <span>{{jobs.count}}</span></a>
+                <a href="{% url 'home' %}?q={{company.name}}" class="active">{{company.name}}<span>{{company.job_set.all.count}}</span></a>
             </li>
         {% endfor %}
     </ul>
