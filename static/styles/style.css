@@ -711,6 +711,8 @@ a {
   gap: 1rem;
   font-size: 1.4rem;
   font-weight: 500;
+  background-color:transparent;
+  border: none;
 }
 
 .roomListRoom__joined svg {

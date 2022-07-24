@@ -1,10 +1,11 @@
 from http import client
+import json
 from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 
 from .models import Company, Job, User
@@ -64,7 +65,7 @@ def registerPage(request):
 def home(request):
     user = User.objects.get(id=request.user.id)
     jobs = Job.objects.filter(client=user)
-    saves = jobs.filter(saved=True)
+    saves = Job.objects.filter(saved=True)
     companies = Company.objects.filter(user=user)
     job_set = Job.objects.order_by('company') 
 
@@ -93,16 +94,25 @@ def job(request, pk):
     user = User.objects.get(id=request.user.id)
     job = Job.objects.get(id=pk)
     jobs = Job.objects.filter(client=user)
-    saves = jobs.filter(saved=True)
+    saves = Job.objects.filter(saved=True)
     companies = Company.objects.filter(user=user)
-        
-    if request.method == 'POST':
-        job.saved = not job.saved
-        job.save()
     
     context = {'job': job, 'jobs': jobs, 'saves': saves, 'companies': companies }
     
     return render(request, 'myjob/job.html', context)
+
+@login_required(login_url='login')
+def updateSaved(request):
+    data = json.loads(request.body)
+    jobId = data['jobId']
+
+    job = Job.objects.get(id=jobId)
+    if request.method == 'POST':
+        job.saved = not job.saved
+        job.save()
+    return JsonResponse('Job was saved', safe=False)
+
+
 
 @login_required(login_url='login')
 def userProfile(request):
@@ -165,7 +175,7 @@ def deleteCompany(request, pk):
 def deleteJob(request, pk):
     job = Job.objects.get(id=pk)
 
-    if request.user != job.user:
+    if request.user != job.client:
         return HttpResponse("You're not allowed to do this" )
     
     if request.method == 'POST':
@@ -215,7 +225,7 @@ def companiesPage(request):
 def savedPage(request):
     user = User.objects.get(id=request.user.id)
     jobs = user.job_set.all()
-    saves = jobs.saved
+    saves = jobs.filter(saved=True)
     
     return render(request, 'myjob/saved.html', {'saves': saves})
 
