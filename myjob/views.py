@@ -70,10 +70,6 @@ def home(request):
     job_set = Job.objects.order_by('company') 
 
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-
-    if request.method == 'POST':
-        job.saved = not job.saved
-        job.save()
    
     jobs_get = jobs.filter(
         Q(industry__icontains=q) |
@@ -119,9 +115,10 @@ def userProfile(request):
     page = 'profile'
     user = User.objects.get(id=request.user.id)
     jobs = Job.objects.filter(client=user)
+    saves = Job.objects.filter(saved=True)
     companies = Company.objects.filter(user=user)
 
-    context = {'user':user, 'jobs': jobs, 'companies': companies, 'page': page}
+    context = {'saves':saves, 'user':user, 'jobs': jobs, 'companies': companies, 'page': page}
     return render(request, 'myjob/profile.html', context)
 
 @login_required(login_url='login')
