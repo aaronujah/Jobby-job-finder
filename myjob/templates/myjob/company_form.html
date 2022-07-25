@@ -20,14 +20,42 @@
       <div class="layout__body">
         <form class="form" action="" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-          
-          {% for field in form %}
+        
           <div class="form__group">
-              <label for="profile_pic">{{field.label}}</label>
-              {{field}}
+            <label for="company_name">Company Name</label>
+            <input required type="text" value="{{company.name}}" name="company" list="company-list" />
+            <datalist id="company-list" >
+                <select id="company-name">
+                  {% for comp in companies%}
+                  <option value="{{comp.name}}">{{comp.name}}</option>
+                  {% endfor %}
+                </select>
+            </datalist>
           </div>
-          {% endfor %}    
 
+          <div class="form__group">
+            <label for="company_website">Company Website</label>
+            <input required type="text" value="{{company.website}}" name="company" list="company-weblist" />
+            <datalist id="company-weblist" >
+                <select id="company-website">
+                  {% for comp in companies%}
+                  <option value="{{comp.website}}">{{comp.website}}</option>
+                  {% endfor %}
+                </select>
+            </datalist>
+          </div>
+          
+          <div class="form__group">
+              <label for="profile_pic">Company Website</label>
+              {{form.website}}
+
+          </div>
+
+          <div class="form__group">
+              <label for="profile_pic">Company Logo</label>
+              {{form.logo}}
+          </div>
+          
 
           <div class="form__action">
               <a class="btn btn--dark" href="{% url 'home' %}">Cancel</a>

@@ -124,7 +124,7 @@ def userProfile(request):
 @login_required(login_url='login')
 def createCompany(request):
     form = CompanyForm()
-    user = User.objects.get(id=request.user.id)
+    companies = Company.objects.all()
     
     if request.method == 'POST':
         Company.objects.create(
@@ -134,13 +134,14 @@ def createCompany(request):
         )
         return redirect('user-profile')
           
-    context = {'form': form}
+    context = {'form': form, 'companies':companies}
     return render(request, 'myjob/company_form.html', context)
 
 @login_required(login_url='login')
 def updateCompany(request, pk):
     company = Company.objects.get(id=pk)
     form = CompanyForm(instance=company)
+    companies = Company.objects.all()
 
     if request.user != company.user:
         return HttpResponse("You're not allowed to do this" )
@@ -152,7 +153,7 @@ def updateCompany(request, pk):
         company.save()
         return redirect('user-profile')    
 
-    context = {'form': form}
+    context = {'form': form, 'companies': companies}
     return render(request, 'myjob/company_form.html', context)
 
 @login_required(login_url='login')
