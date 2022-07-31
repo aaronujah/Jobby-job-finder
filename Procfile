@@ -1,0 +1,1 @@
+web: gunicorn taimatsu.wsgi --log-file -
