@@ -721,7 +721,9 @@ a {
   height: 1.6rem;
 }
 
-.active-saved-icon{
+#active-saved-icon {
+
+
   fill: yellow;
 }
 
@@ -760,7 +762,8 @@ a {
   border-radius: 5px;
 }
 
-.activities__boxHeader p {
+..active-saved-icon{
+{
   font-size: 1.4rem;
   line-height: 1.3;
 }
