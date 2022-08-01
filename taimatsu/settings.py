@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@_6%ojd-3ta6y*_h0sip%&ry$wos9s!$q=f#h8y$gv(zl*k=y('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://aaronujah-jobby.herokuapp.com/', '127.0.0.1']
 
@@ -45,7 +45,6 @@ AUTH_USER_MODEL = 'myjob.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -124,15 +123,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATIC_URL = 'static/'
 MEDIA_URL = '/images/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = BASE_DIR / 'static/images'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 # Default primary key field type
