@@ -65,7 +65,7 @@ def registerPage(request):
 def home(request):
     user = User.objects.get(id=request.user.id)
     jobs = Job.objects.filter(client=user)
-    saves = Job.objects.filter(saved=True)
+    saves = Job.objects.filter(saved=True, client=user)
     companies = Company.objects.filter(user=user)
     job_set = Job.objects.order_by('company') 
 
@@ -90,7 +90,7 @@ def job(request, pk):
     user = User.objects.get(id=request.user.id)
     job = Job.objects.get(id=pk)
     jobs = Job.objects.filter(client=user)
-    saves = Job.objects.filter(saved=True)
+    saves = Job.objects.filter(saved=True, client=user)
     companies = Company.objects.filter(user=user)
     
     context = {'job': job, 'jobs': jobs, 'saves': saves, 'companies': companies }
@@ -115,7 +115,7 @@ def userProfile(request):
     page = 'profile'
     user = User.objects.get(id=request.user.id)
     jobs = Job.objects.filter(client=user)
-    saves = Job.objects.filter(saved=True)
+    saves = Job.objects.filter(saved=True, client=user)
     companies = Company.objects.filter(user=user)
 
     context = {'saves':saves, 'user':user, 'jobs': jobs, 'companies': companies, 'page': page}
