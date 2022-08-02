@@ -14,21 +14,25 @@
     <br>
     <br>
     <br>
-    <ul class="topics__list">
-        <li>
-            <a href="{% url 'home' %}" class="active">All <span>{{jobs.count}}</span></a>
-        </li>
-        {% for company in companies %}
+    {% if companies.count != 0 %}
+        <ul class="topics__list">
             <li>
-                <a href="{% url 'home' %}?q={{company.name}}" class="active">{{company.name}}<span>{{company.job_set.all.count}}</span></a>
+                <a href="{% url 'home' %}" class="active">All <span>{{jobs.count}}</span></a>
             </li>
-        {% endfor %}
-    </ul>
-    <a class="btn btn--link" href="{% url 'companies' %}">
-    More
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-        <title>chevron-down</title>
-        <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
-    </svg>
-    </a>
+            {% for company in companies %}
+                <li>
+                    <a href="{% url 'home' %}?q={{company.name}}" class="active">{{company.name}}<span>{{company.job_set.all.count}}</span></a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a class="btn btn--link" href="{% url 'companies' %}">
+        More
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+            <title>chevron-down</title>
+            <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+        </svg>
+        </a>
+    {% else %}
+        <h3 style="margin:10px ;">You have not added any company. Add a company to see it here</h3>
+    {% endif %}
 </div>
