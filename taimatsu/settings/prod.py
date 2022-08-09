@@ -8,6 +8,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['aaronujah-jobby.herokuapp.com']
 
+DATABASE_URL = config('DATABASE_URL')
+
 
 # Amazon s3 Settings
 
